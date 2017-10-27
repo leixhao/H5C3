@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		/* *{
+			margin:0;
+			padding:0;
+		}
+ */		canvas{
+
+			border:1px solid black;
+		}
+	</style>
+</head>
+<body>
+	<canvas width="600" height="600"></canvas>
+	<script>
+		var canvas = document.querySelector("canvas");
+
+		var ctx = canvas.getContext("2d");
+		//每个网格的宽
+		var one_w = 20;
+		//每个网格的高
+		var one_h = 20;
+		//背景网格的行数
+		var line = canvas.height/one_h;
+		//背景网格的列数
+		var shu = canvas.width/one_w;
+		//坐标轴相对于画布,左右上下的距离
+		var zb_left = 20,
+			zb_right = 20,
+			zb_top = 20,
+			zb_bottom = 20;
+
+		for (var i = 1; i < line; i++) {
+			ctx.moveTo(20*i, 0);
+			ctx.lineTo(20*i, 600);
+			ctx.stroke();
+			ctx.beginPath();
+		};
+
+		for (var k = 1; k < shu; k++) {
+			ctx.moveTo(0, 20*k);
+			ctx.lineTo(600, 20*k);
+			
+			ctx.stroke();
+			ctx.beginPath();
+		};
+
+		//绘制出坐标轴的纵轴
+		ctx.moveTo(zb_left, zb_top);
+		ctx.lineTo(zb_left, canvas.height-zb_bottom);
+		ctx.strokeStyle="red";
+
+		//绘制出纵轴上的三角形
+		ctx.moveTo(zb_left, zb_top);
+		ctx.lineTo(0, zb_top + 20);
+		ctx.lineTo(40, zb_top + 20);
+		ctx.stroke();
+		ctx.fillStyle = "green";
+		ctx.fill();
+
+		//绘制出坐标轴的横轴
+		ctx.moveTo(zb_left, canvas.height-zb_bottom);
+		ctx.lineTo(canvas.width-zb_right, canvas.height-zb_bottom);
+		ctx.strokeStyle="red";
+
+		//绘制出横轴上的三角形
+		ctx.moveTo(canvas.width-20, canvas.height-40);
+		ctx.lineTo(canvas.width-20, canvas.height);
+		ctx.lineTo(canvas.width, canvas.height-20);
+		ctx.stroke();
+		ctx.fillStyle = "green";
+		ctx.fill();
+
+		//假设一个点
+		
+		//每个随机点所围的正方形的边长为6
+		var s_w_h=6;
+
+	 	 //首先要确定生成多少个点 3-9
+	 	 var nm=random(3,10000);
+
+	 	 //确定数组的大小
+	 	 var ary=[];
+
+	 	 //调用下面的random封装的函数，根据nm内的个数，随机生成点
+	 	 for(var i=0; i<nm; i++ ){
+	 	 	//调用下面的random封装的函数，随机生成每个点的随机坐标
+	 	 	//并将每个点的随机坐标作为看成对象
+	 	 	var obj={
+	 	 		"ox":random(20,canvas.width-20),
+	 	 		"oy":random(20,canvas.height-20)
+	 	 	}
+	 	 	//将每个点的坐标对象调用数组的push方法，放如ary数组中
+	 	 	ary.push(obj);
+
+	 	 }
+
+	 	//开始绘制随机点到画布中
+	 	for(var i=0; i<ary.length; i++){
+
+	 		 ctx.moveTo(ary[i].ox-s_w_h/2,ary[i].oy-s_w_h/2);
+		 	 ctx.lineTo(ary[i].ox+s_w_h/2,ary[i].oy-s_w_h/2);
+		 	 ctx.lineTo(ary[i].ox+s_w_h/2,ary[i].oy+s_w_h/2);
+		 	 ctx.lineTo(ary[i].ox-s_w_h/2,ary[i].oy+s_w_h/2);
+	 	}
+		 ctx.fill();
+	 	for (var k = 1; k < ary.length; k++) {
+	 		
+		 	 ctx.moveTo(ary[k-1].ox,ary[k-1].oy);
+		 	 ctx.lineTo(ary[k].ox,ary[k].oy);
+		 	
+		 		
+	 	};
+
+ 		ctx.stroke();
+ 		if(nm <10){
+ 			alert("恭喜恭喜！");
+ 		}
+	 	 //确定随机的范围
+	 	 function random( min,max ){
+
+	 	 	 return  Math.floor(Math.random()*(max-min))+min;
+	 	 }
+
+
+	</script>
+</body>
+</html>
